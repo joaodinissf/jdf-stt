@@ -16,7 +16,7 @@ This document describes the STT (Speech-to-Text) project for AI agents and devel
 
 ## Project Structure
 
-```
+```tree
 stt/
 ├── src/                          # Python source code
 │   ├── __main__.py              # Entry point
@@ -140,7 +140,7 @@ Cross-platform clipboard operations:
 
 ### Internal Execution
 
-```
+```text
 launcher script → uv run python -m src [options]
   ↓
 __main__.py

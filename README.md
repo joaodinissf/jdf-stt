@@ -115,7 +115,7 @@ uv run python -m src --model base
 
 ## Command-Line Options
 
-```
+```bash
 --no-clipboard          # Save to file instead of clipboard
 --lang LANG             # Language code (en, pt, es, fr, de, ja, zh, etc.)
 --model MODEL           # Whisper model (tiny, base, small, medium, large)
