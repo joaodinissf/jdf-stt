@@ -36,10 +36,10 @@ uv sync
 Download the Whisper model:
 
 ```bash
-cd whisper/models
-bash ../download-ggml-model.sh medium
-cd ../..
+curl -L https://raw.githubusercontent.com/ggerganov/whisper.cpp/master/models/download-ggml-model.sh | bash -s -- medium
 ```
+
+For more details and alternative download methods, see [whisper/README.md](whisper/README.md).
 
 ## Usage
 
@@ -124,6 +124,16 @@ uv run python -m src --model base
 ```
 
 ## Troubleshooting
+
+### Missing Whisper Models
+
+If you get an error about missing model files, see the detailed download instructions in [whisper/README.md](whisper/README.md). You can download models using:
+
+```bash
+curl -L https://raw.githubusercontent.com/ggerganov/whisper.cpp/master/models/download-ggml-model.sh | bash -s -- medium
+```
+
+Replace `medium` with `base`, `small`, or `large` depending on your needs.
 
 ### sounddevice ImportError
 

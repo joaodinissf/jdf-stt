@@ -25,9 +25,9 @@ stt/
 │   ├── transcribe.py            # Whisper.cpp integration
 │   └── clipboard.py             # Cross-platform clipboard operations
 ├── whisper/
-│   ├── models/                  # Pre-downloaded Whisper models
-│   │   └── ggml-medium.bin      # Medium model (default, ~1.5GB)
-│   └── download-ggml-model.sh   # Model download script
+│   ├── README.md                # Model download instructions
+│   └── models/                  # Pre-downloaded Whisper models
+│       └── ggml-*.bin           # Model files (gitignored, download separately)
 ├── recordings/                   # Temporary audio files (gitignored)
 ├── transcripts/                  # Output transcription files (gitignored)
 ├── pyproject.toml               # Python project configuration
@@ -162,7 +162,7 @@ __main__.py
 
 4. **CPU-Only by Default**: Whisper.cpp runs on CPU. GPU acceleration (CUDA/Metal) is optional; users must rebuild whisper-cpp themselves if desired.
 
-5. **Model Management**: Large model files excluded from git via .gitignore. Users download models on first setup using the provided script.
+5. **Model Management**: Large model files excluded from git via .gitignore. Download scripts are fetched on-demand from the official whisper.cpp repository rather than stored locally. See [whisper/README.md](whisper/README.md) for download instructions.
 
 ## Development Notes
 
