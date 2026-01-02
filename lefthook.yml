@@ -1,0 +1,62 @@
+# ============================================================================
+# LEFTHOOK CONFIGURATION - PYTHON ONLY
+# ============================================================================
+# Fast local development Git hooks for the STT project (Python only)
+#
+# Prerequisites:
+#   uv tool install pycln isort ruff pyright
+#
+# Usage:
+#   lefthook install        # Install hooks
+#   git commit              # Runs automatically
+#   LEFTHOOK=0 git commit   # Skip hooks
+# ============================================================================
+
+pre-commit:
+  jobs:
+    # ========================================================================
+    # GROUP 1: PYTHON FORMATTERS (SEQUENTIAL)
+    # These must run in order: pycln → isort → ruff format
+    # ========================================================================
+    - group:
+        parallel: false
+        jobs:
+          - name: pycln
+            run: pycln --all {staged_files}
+            glob: '*.py'
+          - name: isort
+            run: isort {staged_files}
+            glob: '*.py'
+          - name: ruff-format
+            run: ruff format --force-exclude {staged_files}
+            glob: '*.{py,pyi}'
+
+    # ========================================================================
+    # GROUP 2: PYTHON CHECKS (PARALLEL)
+    # Read-only checks that can run concurrently
+    # ========================================================================
+    - group:
+        parallel: true
+        jobs:
+          - name: ruff-check
+            run: ruff check --force-exclude {staged_files}
+            glob: '*.{py,pyi}'
+          - name: pyright
+            run: pyright {staged_files}
+            glob: '*.py'
+
+    # ========================================================================
+    # GROUP 3: GENERAL FILE CHECKS
+    # ========================================================================
+    - group:
+        parallel: true
+        jobs:
+          - name: end-of-file-fixer
+            run: end-of-file-fixer {staged_files}
+            glob: '*'
+          - name: trailing-whitespace
+            run: sed -i '' -e 's/[[:space:]]*$//' {staged_files}
+            glob: '*.{py,sh,yml,yaml,toml,md}'
+          - name: detect-private-key
+            run: bash -c 'if grep -l "BEGIN.*PRIVATE KEY" "$@" 2>/dev/null; then echo "Error: Private key detected!"; exit 1; fi' -- {all_files}
+            glob: '*'
