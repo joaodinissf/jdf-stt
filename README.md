@@ -50,24 +50,28 @@ The easiest way to run STT is using the provided launcher scripts:
 #### Standard scripts (with manual close)
 
 **English, copy to clipboard:**
+
 ```bash
 ./stt-en-clipboard.sh   # Linux/macOS
 stt-en-clipboard.bat    # Windows
 ```
 
 **English, save to file:**
+
 ```bash
 ./stt-en-file.sh        # Linux/macOS
 stt-en-file.bat         # Windows
 ```
 
 **Portuguese, copy to clipboard:**
+
 ```bash
 ./stt-pt-clipboard.sh   # Linux/macOS
 stt-pt-clipboard.bat    # Windows
 ```
 
 **Portuguese, save to file:**
+
 ```bash
 ./stt-pt-file.sh        # Linux/macOS
 stt-pt-file.bat         # Windows
@@ -76,6 +80,7 @@ stt-pt-file.bat         # Windows
 #### Clipboard variants (for quick workflows)
 
 **Fast mode (exit immediately after transcription):**
+
 ```bash
 ./stt-en-clipboard-fast.sh   # English
 ./stt-pt-clipboard-fast.sh   # Portuguese
@@ -84,6 +89,7 @@ stt-pt-clipboard-fast.bat    # Windows Portuguese
 ```
 
 **Timeout mode (auto-close after 2 seconds):**
+
 ```bash
 ./stt-en-clipboard-timeout.sh   # English
 ./stt-pt-clipboard-timeout.sh   # Portuguese
