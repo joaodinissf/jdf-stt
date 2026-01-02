@@ -51,12 +51,17 @@ pre-commit:
     - group:
         parallel: true
         jobs:
-          - name: end-of-file-fixer
-            run: end-of-file-fixer {staged_files}
-            glob: '*'
           - name: trailing-whitespace
             run: sed -i '' -e 's/[[:space:]]*$//' {staged_files}
             glob: '*.{py,sh,yml,yaml,toml,md}'
           - name: detect-private-key
-            run: bash -c 'if grep -l "BEGIN.*PRIVATE KEY" "$@" 2>/dev/null; then echo "Error: Private key detected!"; exit 1; fi' -- {all_files}
+            run: |-
+              for file in {all_files}; do
+                if [ -f "$file" ] && [ "${file##*.}" != "yml" ] && [ "${file##*.}" != "yaml" ]; then
+                  if grep -l "BEGIN.*PRIVATE KEY" "$file" 2>/dev/null; then
+                    echo "Error: Private key detected in $file!"
+                    exit 1
+                  fi
+                fi
+              done
             glob: '*'

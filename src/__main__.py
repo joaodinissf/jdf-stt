@@ -1,14 +1,13 @@
 """Main entry point for stt (speech-to-text tool)"""
 
 import sys
-import os
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
+from .audio import check_audio_available, record_audio
 from .cli import parse_args
-from .audio import record_audio, check_audio_available
-from .transcribe import transcribe_audio, check_whisper_available
-from .clipboard import copy_to_clipboard, check_clipboard_available
+from .clipboard import copy_to_clipboard
+from .transcribe import check_whisper_available, transcribe_audio
 
 
 def check_dependencies():

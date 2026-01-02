@@ -1,8 +1,8 @@
 """Whisper transcription using whisper.cpp binary"""
 
-import sys
-import subprocess
 import platform
+import subprocess
+import sys
 from pathlib import Path
 
 
@@ -40,25 +40,22 @@ def get_whisper_cpp_path() -> Path:
                 ["where", "whisper-cli.exe"],
                 capture_output=True,
                 text=True,
-                check=False
+                check=False,
             )
         else:
             # Unix uses 'which' command - try whisper-cli first (Homebrew), then whisper-cpp
             result = subprocess.run(
-                ["which", "whisper-cli"],
-                capture_output=True,
-                text=True,
-                check=False
+                ["which", "whisper-cli"], capture_output=True, text=True, check=False
             )
             if result.returncode != 0:
                 result = subprocess.run(
                     ["which", "whisper-cpp"],
                     capture_output=True,
                     text=True,
-                    check=False
+                    check=False,
                 )
         if result.returncode == 0 and result.stdout.strip():
-            return Path(result.stdout.strip().split('\n')[0])
+            return Path(result.stdout.strip().split("\n")[0])
     except Exception:
         pass
 
@@ -90,7 +87,9 @@ def get_model_path(model: str) -> Path:
     )
 
 
-def transcribe_audio(audio_path: str, model: str = "medium", language: str = "en") -> str:
+def transcribe_audio(
+    audio_path: str, model: str = "medium", language: str = "en"
+) -> str:
     """
     Transcribe audio file using whisper.cpp binary.
 
@@ -129,9 +128,12 @@ def transcribe_audio(audio_path: str, model: str = "medium", language: str = "en
     # -np: no progress output
     cmd = [
         str(whisper_binary),
-        "-m", str(model_path),
-        "-f", str(audio_path),
-        "-l", language,
+        "-m",
+        str(model_path),
+        "-f",
+        str(audio_path),
+        "-l",
+        language,
         "-nt",  # No timestamps
         "-np",  # No progress
     ]
@@ -142,9 +144,9 @@ def transcribe_audio(audio_path: str, model: str = "medium", language: str = "en
             cmd,
             capture_output=True,
             text=True,
-            encoding='utf-8',  # Explicitly use UTF-8 to handle Portuguese/Unicode characters
+            encoding="utf-8",  # Explicitly use UTF-8 to handle Portuguese/Unicode characters
             check=True,
-            timeout=300  # 5 minute timeout
+            timeout=300,  # 5 minute timeout
         )
 
         # whisper.cpp outputs transcription to stdout
@@ -173,16 +175,13 @@ def check_whisper_available() -> bool:
 
         # Try to run whisper.cpp with --help to verify it works
         result = subprocess.run(
-            [str(whisper_binary), "--help"],
-            capture_output=True,
-            timeout=5,
-            check=False
+            [str(whisper_binary), "--help"], capture_output=True, timeout=5, check=False
         )
 
         if result.returncode == 0:
             return True
         else:
-            print(f"Error: whisper.cpp binary found but failed to run", file=sys.stderr)
+            print("Error: whisper.cpp binary found but failed to run", file=sys.stderr)
             return False
 
     except FileNotFoundError as e:

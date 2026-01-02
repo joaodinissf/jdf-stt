@@ -1,20 +1,22 @@
 """Audio recording using sounddevice"""
 
 import sys
-import numpy as np
-import sounddevice as sd
-import scipy.io.wavfile as wavfile
 from pathlib import Path
+from typing import Any
+
+import numpy as np
+import scipy.io.wavfile as wavfile
+import sounddevice as sd
 
 
-def list_audio_devices():
+def list_audio_devices() -> list[Any]:
     """List all available audio devices"""
-    return sd.query_devices()
+    return sd.query_devices()  # type: ignore[return-value]
 
 
-def get_default_input_device():
+def get_default_input_device() -> dict[str, Any]:
     """Get the default input device"""
-    return sd.query_devices(kind="input")
+    return sd.query_devices(kind="input")  # type: ignore[return-value]
 
 
 def record_audio(output_path: str, sample_rate: int = 16000) -> bool:
@@ -86,8 +88,12 @@ def record_audio(output_path: str, sample_rate: int = 16000) -> bool:
 def check_audio_available() -> bool:
     """Check if audio input devices are available"""
     try:
-        devices = sd.query_devices()
-        input_devices = [d for d in devices if d.get("max_input_channels", 0) > 0]
+        devices = sd.query_devices()  # type: ignore[assignment]
+        input_devices = [
+            d
+            for d in devices
+            if isinstance(d, dict) and d.get("max_input_channels", 0) > 0
+        ]
 
         if not input_devices:
             print("Error: No audio input devices found", file=sys.stderr)

@@ -1,7 +1,6 @@
 """Command-line argument parsing for stt"""
 
 import argparse
-import sys
 
 
 def create_parser():
