@@ -2,6 +2,7 @@
 name = "stt"
 version = "1.0.0"
 description = "Speech-to-text tool using whisper.cpp - Pure Python implementation"
+license = {text = "MIT"}
 requires-python = ">=3.10"
 dependencies = [
     "sounddevice>=0.5.1",
