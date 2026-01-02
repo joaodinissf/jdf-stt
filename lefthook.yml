@@ -23,13 +23,13 @@ pre-commit:
         jobs:
           - name: pycln
             run: pycln --all {staged_files}
-            glob: '*.py'
+            glob: "*.py"
           - name: isort
             run: isort {staged_files}
-            glob: '*.py'
+            glob: "*.py"
           - name: ruff-format
             run: ruff format --force-exclude {staged_files}
-            glob: '*.{py,pyi}'
+            glob: "*.{py,pyi}"
 
     # ========================================================================
     # GROUP 2: PYTHON CHECKS (PARALLEL)
@@ -40,10 +40,10 @@ pre-commit:
         jobs:
           - name: ruff-check
             run: ruff check --force-exclude {staged_files}
-            glob: '*.{py,pyi}'
+            glob: "*.{py,pyi}"
           - name: pyright
             run: pyright {staged_files}
-            glob: '*.py'
+            glob: "*.py"
 
     # ========================================================================
     # GROUP 3: GENERAL FILE CHECKS
@@ -53,7 +53,7 @@ pre-commit:
         jobs:
           - name: trailing-whitespace
             run: sed -i '' -e 's/[[:space:]]*$//' {staged_files}
-            glob: '*.{py,sh,yml,yaml,toml,md}'
+            glob: "*.{py,sh,yml,yaml,toml,md}"
           - name: detect-private-key
             run: |-
               for file in {all_files}; do
@@ -64,4 +64,4 @@ pre-commit:
                   fi
                 fi
               done
-            glob: '*'
+            glob: "*"
