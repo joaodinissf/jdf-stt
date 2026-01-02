@@ -34,7 +34,8 @@ stt/
 ├── README.md                     # User documentation
 ├── AGENTS.md                     # This file
 ├── .gitignore                    # Git exclusions
-└── stt-{en,pt}-{clipboard,file}.{sh,bat}  # Launcher scripts
+├── stt-{en,pt}-{clipboard,file}.{sh,bat}        # Standard launcher scripts
+└── stt-{en,pt}-clipboard-{fast,timeout}.{sh,bat}  # Clipboard variants (fast/timeout modes)
 ```
 
 ## Technology Stack
@@ -87,10 +88,9 @@ Whisper.cpp integration:
 
 ### `src/clipboard.py`
 Cross-platform clipboard operations:
-- **macOS**: Uses `pbcopy` command
-- **Linux**: Tries `xclip` then `xsel` then pyperclip
-- **Windows**: Calls `clip.exe` via WSL or native
-- Fallback to pyperclip if system commands unavailable
+- Uses pyperclip for automatic platform detection
+- Supports macOS, Linux, and Windows
+- Provides unified clipboard interface across all platforms
 
 ## Workflow
 
@@ -100,6 +100,25 @@ Cross-platform clipboard operations:
 3. Audio recorded until Enter is pressed again
 4. Transcription runs via whisper.cpp
 5. Result copied to clipboard or saved to file
+
+### Launcher Script Variants
+
+**Standard scripts** (8 total):
+- `stt-en-clipboard.{sh,bat}` - English, clipboard output with manual close
+- `stt-en-file.{sh,bat}` - English, file output with manual close
+- `stt-pt-clipboard.{sh,bat}` - Portuguese, clipboard output with manual close
+- `stt-pt-file.{sh,bat}` - Portuguese, file output with manual close
+
+**Clipboard variants** (4 additional for clipboard modes):
+- `stt-en-clipboard-fast.{sh,bat}` - Exit immediately after transcription (no pause)
+- `stt-en-clipboard-timeout.{sh,bat}` - Auto-close after 2 seconds
+- `stt-pt-clipboard-fast.{sh,bat}` - Portuguese, exit immediately
+- `stt-pt-clipboard-timeout.{sh,bat}` - Portuguese, auto-close after 2 seconds
+
+**Choice guide:**
+- Use **standard** scripts when you want to review results before closing
+- Use **fast** scripts for quick transcription into clipboard (useful for hotkeys/automation)
+- Use **timeout** scripts for unattended workflows (show result briefly then close)
 
 ### Internal Execution
 ```
